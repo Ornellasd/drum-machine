@@ -3,65 +3,65 @@ import { useState, useEffect } from 'react'
 const audioBank = [
   {
     keyCode: 81,
-    keyTrigger: "Q",
-    id: "Heater-1",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3",
+    keyTrigger: 'q',
+    id: 'Chord-1',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/Chord_1.mp3',
     color: "#9400D3"
   },
   {
     keyCode: 87,
-    keyTrigger: "W",
-    id: "Heater-2",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3",
+    keyTrigger: 'w',
+    id: 'Chord-2',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/Chord_2.mp3',
     color: "#4B0082"
   },
   {
     keyCode: 69,
-    keyTrigger: "E",
-    id: "Heater-3",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3",
+    keyTrigger: 'e',
+    id: 'Chord-3',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/Chord_3.mp3',
     color: "#0000FF"
   },
   {
     keyCode: 65,
-    keyTrigger: "A",
-    id: "Heater-4",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3",
+    keyTrigger: 'a',
+    id: 'Give Us A Light',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/Give_us_a_light.mp3',
     color: "green"
   },
   {
     keyCode: 83,
-    keyTrigger: "S",
-    id: "Clap",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3",
+    keyTrigger: 's',
+    id: 'Dry-Ohh',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/Dry_Ohh.mp3',
     color: "#00FF00"
   },
   {
     keyCode: 68,
-    keyTrigger: "D",
-    id: "Open-HH",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3",
+    keyTrigger: 'd',
+    id: 'Bld-H1',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/Bld_H1.mp3',
     color: "#FFFF00"
   },
   {
     keyCode: 90,
-    keyTrigger: "Z",
-    id: "Kick-n'-Hat",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3",
+    keyTrigger: 'z',
+    id: 'Punchy-Kick-1',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/punchy_kick_1.mp3',
     color: "#FF7F00"
   },
   {
     keyCode: 88,
-    keyTrigger: "X",
-    id: "Kick",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3",
+    keyTrigger: 'x',
+    id: 'Side-Stick-1',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/side_stick_1.mp3',
     color: "#FF0000"
   },
   {
     keyCode: 67,
-    keyTrigger: "C",
-    id: "Closed-HH",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3",
+    keyTrigger: 'c',
+    id: 'Brk-Snr',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/Brk_Snr.mp3',
     color: "maroon"
   }
 ]
@@ -72,19 +72,21 @@ const col3 = audioBank.slice(6)
 const allCols = [col1, col2, col3];
 
 const App = () => {  
-  const [clipName, setClipName] = useState('')
+  const [beat, setBeat] = useState('')
   
   const handleKeyDown = (event) => {
     audioBank.forEach(clip => {
       if(event.keyCode === clip.keyCode) {
-        setClipName(clip.id)
-        document.querySelector(`#${clip.keyTrigger}`).play()
+        setBeat(clip)
+        document.querySelector(`#${event.key}`).play()
       }
     })
   }
 
-  const handleKeyUp = () => {
-    setClipName('')
+  const handleKeyUp = (event) => {
+    document.querySelector(`#${event.key}`).pause()
+    document.querySelector(`#${event.key}`).currentTime = 0
+    setBeat('')
   }
 
   useEffect(() => {
@@ -103,7 +105,7 @@ const App = () => {
               id={clip.id}
               style={{ backgroundColor: clip.color }}
             >
-              <h2>{clip.keyTrigger}</h2>
+              <h2>{clip.keyTrigger.toUpperCase()}</h2>
               <audio 
                 src={clip.url}
                 id={clip.keyTrigger}
@@ -112,7 +114,7 @@ const App = () => {
           ))}
         </div>
       ))}
-      <h4 className="text-center" id="display">{clipName}</h4>
+      <h4 className="text-center" id="display">{beat.id}</h4>
     </div>
   )
 }
