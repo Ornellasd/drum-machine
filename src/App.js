@@ -78,6 +78,7 @@ const App = () => {
     audioBank.forEach(clip => {
       if(event.keyCode === clip.keyCode) {
         setClipName(clip.id)
+        document.querySelector(`#${clip.keyTrigger}`).play()
       }
     })
   }
@@ -103,7 +104,10 @@ const App = () => {
               style={{ backgroundColor: clip.color }}
             >
               <h2>{clip.keyTrigger}</h2>
-              <audio src={clip.url}></audio>
+              <audio 
+                src={clip.url}
+                id={clip.keyTrigger}
+              ></audio>
             </div>
           ))}
         </div>
