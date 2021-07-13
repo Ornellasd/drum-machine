@@ -72,14 +72,18 @@ const col3 = audioBank.slice(6)
 const allCols = [col1, col2, col3];
 
 const App = () => {  
-  const [keyPressed, setKeyPressed] = useState('')
-
+  const [clipName, setClipName] = useState('')
+  
   const handleKeyDown = (event) => {
-    setKeyPressed(event.keyCode)
+    audioBank.forEach(clip => {
+      if(event.keyCode === clip.keyCode) {
+        setClipName(clip.id)
+      }
+    })
   }
 
   const handleKeyUp = () => {
-    setKeyPressed('')
+    setClipName('')
   }
 
   useEffect(() => {
@@ -89,7 +93,6 @@ const App = () => {
 
   return (
     <div className="container">
-      {keyPressed}
       <h1 className="text-center">Drum Machine</h1>
       {allCols.map(col => (
         <div className="row">
@@ -105,7 +108,7 @@ const App = () => {
           ))}
         </div>
       ))}
-      <h4 className="text-center" id="display"></h4>
+      <h4 className="text-center" id="display">{clipName}</h4>
     </div>
   )
 }
