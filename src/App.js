@@ -1,4 +1,4 @@
-import { Container, Row, Col } from 'react-bootstrap'
+import { useState, useEffect } from 'react'
 
 const audioBank = [
   {
@@ -69,27 +69,44 @@ const audioBank = [
 const col1 = audioBank.slice(0, 3)
 const col2 = audioBank.slice(3, 6)
 const col3 = audioBank.slice(6)
+const allCols = [col1, col2, col3];
 
-const App = () => {
+const App = () => {  
+  const [keyPressed, setKeyPressed] = useState('')
+
+  const handleKeyDown = (event) => {
+    setKeyPressed(event.keyCode)
+  }
+
+  const handleKeyUp = () => {
+    setKeyPressed('')
+  }
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('keyup', handleKeyUp)
+  }, [])
+
   return (
-    <Container>
+    <div className="container">
+      {keyPressed}
       <h1 className="text-center">Drum Machine</h1>
-      <Row>
-        {col1.map(button =>
-          <Col>{button.keyTrigger}</Col>
-        )}
-      </Row>
-      <Row>
-        {col2.map(button =>
-          <Col>{button.keyTrigger}</Col>
-        )}
-      </Row>
-      <Row>
-        {col3.map(button =>
-          <Col>{button.keyTrigger}</Col>
-        )}
-      </Row>   
-    </Container>
+      {allCols.map(col => (
+        <div className="row">
+          {col.map(clip => (
+            <div
+              className="col-sm drum-pad"
+              id={clip.id}
+              style={{ backgroundColor: clip.color }}
+            >
+              <h2>{clip.keyTrigger}</h2>
+              <audio src={clip.url}></audio>
+            </div>
+          ))}
+        </div>
+      ))}
+      <h4 className="text-center" id="display"></h4>
+    </div>
   )
 }
 
